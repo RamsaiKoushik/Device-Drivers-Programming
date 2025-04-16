@@ -34,7 +34,7 @@ module_exit(my_module_exit);
 
 1. Create a `Makefile`:
 ```Makefile
-obj-m += my_module.o
+obj-m += module00.o
 
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
