@@ -99,18 +99,25 @@ if (down_interruptible(&ram_sem)) {
 
 up(&ram_sem);  // Release lock
 ```
+###  Semaphore Locking Functions Used in this Module
+
+| Call       | Syntax                          | What it Does                                                                 | When is it Useful                                        |
+|------------|----------------------------------|------------------------------------------------------------------------------|-----------------------------------------------------------|
+| `sema_init`| `sema_init(&sem, val);`         | Initializes the semaphore `sem` with value `val`.                           | Use at module init to prepare a semaphore with desired count (typically 1 for binary lock). |
+| `down_interruptible`| `down_interruptible(&sem);` | Attempts to acquire the semaphore. Sleeps if not available, but can be interrupted. | Use in user-triggered functions (`open()`, etc.) where you want to allow interruption via signals. |
+| `up`       | `up(&sem);`                     | Releases the semaphore, waking up any sleeping waiters.                     | Always used after successful `down*()` to release lock.  |
 
 ---
 
-##  Semaphore Variants in the Linux Kernel
+###  Variants of the Semaphore Methods
 
-| Type                  | Description                                  | Syntax / API                                      | Use Case                                                                 |
-|-----------------------|----------------------------------------------|---------------------------------------------------|--------------------------------------------------------------------------|
-| **Binary Semaphore**  | Allows only one process inside critical section at a time | `struct semaphore` <br> `sema_init(&sem, 1)` <br> `down()` / `down_interruptible()` / `up()` | Mutual exclusion — e.g., protecting a shared buffer (like in this module) |
-| **Counting Semaphore**| Allows `N` concurrent accesses               | `sema_init(&sem, N)`                              | Limiting concurrent access to a finite resource pool                     |
-| **Mutex**             | Specialized binary semaphore with ownership checks | `DEFINE_MUTEX(name)` <br> `mutex_lock()` / `mutex_unlock()` | Mutual exclusion with ownership and reentrancy safety                   |
-| **Spinlock**          | Busy-wait lock used in atomic contexts       | `spinlock_t lock;` <br> `spin_lock()` / `spin_unlock()` | Used in interrupt context or where sleeping is not allowed              |
-| **RW Semaphore**      | Allows multiple readers or one writer        | `init_rwsem(&rwsem)` <br> `down_read()` / `down_write()` / `up_read()` / `up_write()` | Efficient shared-read, exclusive-write locking                          |
-| **Completions**       | One-time events / signaling                  | `DECLARE_COMPLETION()` <br> `wait_for_completion()` / `complete()` | Used when one task must wait for another to complete an event           |
+####  Acquisition Variants (`down` family):
+
+| Call               | Syntax                       | What it Does                                                                 | When is it Useful                                              |
+|--------------------|------------------------------|------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| `down`             | `down(&sem);`                | Acquires the semaphore. Sleeps uninterruptibly if unavailable.              | Use in kernel threads where sleeping is allowed and should not be interrupted. |
+| `down_interruptible`| `down_interruptible(&sem);` | Acquires the semaphore. Sleeps, but returns `-EINTR` if interrupted.        | Use when a signal should interrupt the sleep (e.g. user process). |
+| `down_trylock`     | `down_trylock(&sem);`        | Tries to acquire the semaphore immediately. Non-blocking.                   | Use in atomic or interrupt context where sleeping is **not allowed**. |
+| `down_killable`    | `down_killable(&sem);`       | Like `down_interruptible()`, but only fatal signals interrupt.              | Use when you only want fatal signals to cause exit from sleep.  |
 
 ---
