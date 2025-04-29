@@ -19,18 +19,20 @@ rwlock_init(&my_lock);
 
 ### 🔹 Locking Variants
 
-| Function                    | Type           | Description                                           |
-|-----------------------------|----------------|-------------------------------------------------------|
-| `read_lock()`               | Blocking       | Acquires read lock (allows multiple readers)          |
-| `read_unlock()`             | -              | Releases read lock                                    |
-| `write_lock()`              | Blocking       | Acquires write lock (exclusive access)                |
-| `write_unlock()`            | -              | Releases write lock                                   |
-| `read_lock_irqsave(flags)` | Interrupt-safe | Acquires read lock and disables interrupts            |
-| `read_unlock_irqrestore(flags)` | -         | Releases lock and restores interrupt state            |
-| `write_lock_irqsave(flags)`| Interrupt-safe | Acquires write lock and disables interrupts           |
-| `write_unlock_irqrestore(flags)`| -         | Releases lock and restores interrupt state            |
+### Locking Variants
 
-> ⚠️Use IRQ-safe versions only if you're working in interrupt context or need atomicity w.r.t. interrupts.
+| Function                          | Type           | Description                                           | When to Use                                         |
+|-----------------------------------|----------------|-------------------------------------------------------|-----------------------------------------------------|
+| `read_lock()`                     | Blocking       | Acquires read lock (allows multiple readers)          | Normal read operations outside interrupt context    |
+| `read_unlock()`                   | -              | Releases read lock                                    | After completing read operation                    |
+| `write_lock()`                    | Blocking       | Acquires write lock (exclusive access)                | Normal write operations outside interrupt context   |
+| `write_unlock()`                  | -              | Releases write lock                                   | After completing write operation                   |
+| `read_lock_irqsave(flags)`         | Interrupt-safe | Acquires read lock and disables interrupts            | Read operations inside interrupt handler or atomic sections |
+| `read_unlock_irqrestore(flags)`    | -              | Releases lock and restores interrupt state            | After completing critical read section inside interrupt |
+| `write_lock_irqsave(flags)`        | Interrupt-safe | Acquires write lock and disables interrupts           | Write operations inside interrupt handler or atomic sections |
+| `write_unlock_irqrestore(flags)`   | -              | Releases lock and restores interrupt state            | After completing critical write section inside interrupt |
+
+> ⚠Use IRQ-safe versions only if you're working in interrupt context or need atomicity w.r.t. interrupts.
 
 ---
 
