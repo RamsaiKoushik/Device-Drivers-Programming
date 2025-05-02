@@ -11,11 +11,23 @@ This README focuses on the use of **read-write lock (`rwlock_t`)** in a simple R
 
 ## 🛠️ Syntax and Use-Cases
 
-### 🔹 Basic Initialization
-```c
-rwlock_t my_lock;
-rwlock_init(&my_lock);
-```
+Here's a table summarizing the key Linux kernel APIs related to **read lock mechanisms** (`rwlock_t`) used in this kernel module:
+
+| **API Call**     | **Syntax**                  | **What It Does**                             | **When to Use**                                                               |
+| ---------------- | --------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------- |
+| `rwlock_t`       | `rwlock_t lock_name;`       | Declares a read-write lock variable.         | Use during global/static variable declarations to enable rwlock usage.        |
+| `rwlock_init()`  | `rwlock_init(&lock_name);`  | Initializes the read-write lock.             | Call once (e.g., during driver/module init) before using the lock.            |
+| `read_lock()`    | `read_lock(&lock_name);`    | Acquires the lock in read (shared) mode.     | Use before reading shared data to allow concurrent readers but block writers. |
+| `read_unlock()`  | `read_unlock(&lock_name);`  | Releases the previously acquired read lock.  | Use immediately after a `read_lock()` once reading is done.                   |
+| `write_lock()`   | `write_lock(&lock_name);`   | Acquires the lock in write (exclusive) mode. | Use before writing/updating shared data to ensure exclusive access.           |
+| `write_unlock()` | `write_unlock(&lock_name);` | Releases the previously acquired write lock. | Use immediately after a `write_lock()` once writing is done.                  |
+
+### Notes:
+
+* **Readers** can acquire the lock simultaneously as long as no **writer** holds the lock.
+* **Writers** must wait until **all readers** and **other writers** have released the lock.
+* `rwlock_t` is **spinlock-based**, so it's appropriate for short critical sections and **not sleepable**. Avoid blocking/sleeping inside read/write lock critical sections.
+
 
 ### 🔹 Locking Variants
 
@@ -32,7 +44,7 @@ rwlock_init(&my_lock);
 | `write_lock_irqsave(flags)`        | Interrupt-safe | Acquires write lock and disables interrupts           | Write operations inside interrupt handler or atomic sections |
 | `write_unlock_irqrestore(flags)`   | -              | Releases lock and restores interrupt state            | After completing critical write section inside interrupt |
 
-> ⚠Use IRQ-safe versions only if you're working in interrupt context or need atomicity w.r.t. interrupts.
+> Use IRQ-safe versions only if you're working in interrupt context or need atomicity w.r.t. interrupts.
 
 ---
 
