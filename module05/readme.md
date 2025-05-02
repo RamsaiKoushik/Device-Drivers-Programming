@@ -51,22 +51,18 @@ The `mutex_trylock()` ensures that if the mutex is already held by another proce
 
 ---
 
-## Mutex Syntax Variants in Kernel
+## Mutex APIs used and their Variants
 
-| Function                 | Description                                                                 |
-|--------------------------|-----------------------------------------------------------------------------|
-| `mutex_init(&mutex)`     | Initializes the mutex                                                       |
-| `mutex_lock(&mutex)`     | Blocks the caller until the mutex is available                             |
-| `mutex_unlock(&mutex)`   | Unlocks the mutex after use                                                 |
-| `mutex_trylock(&mutex)`  | Tries to acquire the mutex without blocking; returns `0` if failed          |
-| `mutex_is_locked(&mutex)`| Checks if the mutex is currently held (use with care)                      |
-
-###  When to use what:
-
-- `mutex_lock()` → Use when you're okay with blocking until the lock is available.
-- `mutex_trylock()` → Use in `open()` or short-time critical code where waiting is not acceptable.
-- `mutex_unlock()` → Always release after you're done.
-- `mutex_is_locked()` → Diagnostic only, never rely on it for logic flow.
+| **API Call**           | **Syntax**                                | **Description**                                                                               | **When to Use**                                                                                |
+| ---------------------- | ----------------------------------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `mutex_init`           | `mutex_init(&mutex);`                     | Dynamically initializes a mutex.                                                              | Use during initialization of a mutex if it's declared globally or on the heap.                 |
+| `DEFINE_MUTEX`         | `DEFINE_MUTEX(my_mutex);`                 | Statically defines and initializes a mutex in one step.                                       | Use for global/static variables to simplify initialization.                                    |
+| `mutex_lock`           | `mutex_lock(&mutex);`                     | Acquires the mutex, blocks if it's not available.                                             | Use in normal critical sections where blocking is acceptable.                                  |
+| `mutex_unlock`         | `mutex_unlock(&mutex);`                   | Releases the mutex.                                                                           | Always call this after `mutex_lock()` to avoid deadlocks.                                      |
+| `mutex_trylock`        | `mutex_trylock(&mutex);`                  | Tries to acquire the mutex without blocking; returns `true` if successful, `false` otherwise. | Use when you cannot afford to sleep or block, e.g., short paths like `open()`.                 |
+| `mutex_is_locked`      | `mutex_is_locked(&mutex);`                | Returns non-zero if the mutex is currently locked.                                            | Use only for debugging or diagnostic purposes, not for logic control.                          |
+| `mutex_destroy`        | `mutex_destroy(&mutex);`                  | Destroys a mutex (used mostly in userspace-like constructs).                                  | Rarely needed in kernel code, used with dynamically allocated mutexes.                         |
+| `mutex_trylock_nested` | `mutex_trylock_nested(&mutex, subclass);` | Acquires a mutex without blocking, with lockdep subclass annotation.                          | Use for nested locking scenarios to avoid false positives in lock dependency checks (lockdep). |
 
 ---
 
