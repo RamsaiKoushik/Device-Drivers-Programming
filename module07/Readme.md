@@ -82,7 +82,7 @@ A Linux kernel module that implements a character device `/dev/ram_array7` backe
 
 ---
 
-## Concurrency Control with Semaphore
+## Concurrency Control with RCU
 
 To protect shared access to the RAM buffer, the module uses RCU. This allows multiple readers to read at the same time, along with one writer having access to write simultaneously.
 
