@@ -76,6 +76,11 @@ This driver uses a **spinlock** (`spin_lock_irqsave`) to enforce exclusive acces
 | `spin_trylock`      | `spin_trylock(&lock);`              | Tries to acquire lock without blocking; returns true on success.          | Use when you can't sleep or block, and want to skip if locked.      |
 | `spin_is_locked`    | `spin_is_locked(&lock);`            | Checks if lock is currently held.                                         | Useful in debugging or assertions.                                  |
 
+## Screenshot of Application Code Execution
+
+![image](https://github.com/user-attachments/assets/9822571e-3faf-487a-88f7-9a75ba648617)
+
+
 ---
 
 ## ⚠️ Notes
