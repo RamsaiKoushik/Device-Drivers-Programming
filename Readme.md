@@ -18,7 +18,7 @@ Below is a summary of the modules included in this repository:
 
 > Implements a simple character device backed by a fixed-size in-kernel RAM buffer. Supports file-like operations from user space.
 
-📖 [Read more](./module01/Readme.md)
+📖 [Read more](./module01/readme.md)
 
 ---
 
