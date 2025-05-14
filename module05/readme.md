@@ -83,6 +83,10 @@ Make sure you test scenarios like opening the device from two processes to see h
 
 ---
 
+## Screenshot of Application Code Execution
+
+![image](https://github.com/user-attachments/assets/a26f750d-a98c-4f88-a8b4-a5e03c99579c)
+
 ## What is a Mutex?
 
 A **mutex** (short for *mutual exclusion*) is a synchronization primitive used to ensure that only **one thread or process** accesses a **critical section** of code or data at any given time.
@@ -94,10 +98,3 @@ In kernel space:
 > Think of it as a **lock** that only one entity can hold. Others trying to acquire it must wait or fail until it's released.
 
 ---
-
-##  Cleanup
-
-```bash
-sudo rmmod ram_array3
-make clean
-```
