@@ -120,4 +120,8 @@ up(&ram_sem);  // Release lock
 | `down_trylock`     | `down_trylock(&sem);`        | Tries to acquire the semaphore immediately. Non-blocking.                   | Use in atomic or interrupt context where sleeping is **not allowed**. |
 | `down_killable`    | `down_killable(&sem);`       | Like `down_interruptible()`, but only fatal signals interrupt.              | Use when you only want fatal signals to cause exit from sleep.  |
 
+### Screenshot of Application code Execution
+
+![image](https://github.com/user-attachments/assets/5b5e8772-cea8-4a56-a5b3-ee0b7b4965a5)
+
 ---
