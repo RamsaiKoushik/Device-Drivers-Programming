@@ -18,7 +18,7 @@ Below is a summary of the modules included in this repository:
 
 > Implements a simple character device backed by a fixed-size in-kernel RAM buffer. Supports file-like operations from user space.
 
-📖 [Read more](./module01/readme.md)
+📖 [Read more](./module01/Readme.md)
 
 ---
 
@@ -26,7 +26,7 @@ Below is a summary of the modules included in this repository:
 
 > An enhanced version of a RAM-backed character device supporting basic `ioctl` operations for additional control.
 
-📖 [Read more](./module02/readme.md)
+📖 [Read more](./module02/Readme.md)
 
 ---
 
@@ -34,7 +34,7 @@ Below is a summary of the modules included in this repository:
 
 > Adds concurrency control using **binary semaphores** to the RAM-backed device, ensuring safe multi-process access.
 
-📖 [Read more](./module03/readme.md)
+📖 [Read more](./module03/Readme.md)
 
 ---
 
@@ -42,7 +42,7 @@ Below is a summary of the modules included in this repository:
 
 > Replaces semaphores with **spinlocks** to handle synchronization in a busy-wait fashion for kernel-space concurrency.
 
-📖 [Read more](./module04/readme.md)
+📖 [Read more](./module04/Readme.md)
 
 ---
 
@@ -66,7 +66,7 @@ Below is a summary of the modules included in this repository:
 
 > Demonstrates **Read-Copy-Update (RCU)**, a sophisticated synchronization mechanism optimized for read-heavy workloads.
 
-📖 [Read more](./module07/readme.md)
+📖 [Read more](./module07/Readme.md)
 
 ---
 
