@@ -6,7 +6,7 @@ This repository showcases a progressive series of Linux kernel modules demonstra
 
 Below is a summary of the modules included in this repository:
 
-### [`module00`](./module00/README.md)
+### [`module00`](./module00)
 
 > A minimal Linux kernel module demonstrating basic module loading and unloading using `printk()` for logging.
 
@@ -14,59 +14,59 @@ Below is a summary of the modules included in this repository:
 
 ---
 
-### [`module01`](./module01/README.md)
+### [`module01`](./module01)
 
 > Implements a simple character device backed by a fixed-size in-kernel RAM buffer. Supports file-like operations from user space.
 
-📖 [Read more](./module01/README.md)
+📖 [Read more](./module01/readme.md)
 
 ---
 
-### [`module02`](./module02/README.md)
+### [`module02`](./module02)
 
 > An enhanced version of a RAM-backed character device supporting basic `ioctl` operations for additional control.
 
-📖 [Read more](./module02/README.md)
+📖 [Read more](./module02/readme.md)
 
 ---
 
-### [`module03`](./module03/README.md)
+### [`module03`](./module03)
 
 > Adds concurrency control using **binary semaphores** to the RAM-backed device, ensuring safe multi-process access.
 
-📖 [Read more](./module03/README.md)
+📖 [Read more](./module03/readme.md)
 
 ---
 
-### [`module04`](./module04/README.md)
+### [`module04`](./module04)
 
 > Replaces semaphores with **spinlocks** to handle synchronization in a busy-wait fashion for kernel-space concurrency.
 
-📖 [Read more](./module04/README.md)
+📖 [Read more](./module04/readme.md)
 
 ---
 
-### [`module05`](./module05/README.md)
+### [`module05`](./module05)
 
 > Implements synchronization using **mutexes**, providing blocking mechanisms for mutual exclusion.
 
-📖 [Read more](./module05/README.md)
+📖 [Read more](./module05/readme.md)
 
 ---
 
-### [`module06`](./module06/README.md)
+### [`module06`](./module06)
 
 > Uses **read-write locks** to differentiate between read and write accesses, allowing concurrent readers.
 
-📖 [Read more](./module06/README.md)
+📖 [Read more](./module06/readme.md)
 
 ---
 
-### [`module07`](./module07/README.md)
+### [`module07`](./module07)
 
 > Demonstrates **Read-Copy-Update (RCU)**, a sophisticated synchronization mechanism optimized for read-heavy workloads.
 
-📖 [Read more](./module07/README.md)
+📖 [Read more](./module07/readme.md)
 
 ---
 
